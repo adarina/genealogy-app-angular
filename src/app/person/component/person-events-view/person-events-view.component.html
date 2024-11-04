@@ -1,0 +1,63 @@
+<div class="mat-elevation-z8">
+  <table class="button-container">
+    <button mat-button (click)="addEvent()">Add</button>
+    <button mat-button color="warn" (click)="deleteSelectedEvent()" [disabled]="!selectedEvent">
+      Delete
+    </button>
+  </table>
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let row"> {{ row.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+      <td mat-cell *matCellDef="let row"> {{ row.type }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let row">{{ row.date | date: 'yyyy-MM-dd' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="participants">
+      <th mat-header-cell *matHeaderCellDef>Participants</th>
+      <td mat-cell *matCellDef="let row">{{ row.formattedParticipants }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="relationship">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Relationship</th>
+      <td mat-cell *matCellDef="let row"> {{ row.relationship }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="place">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Place</th>
+      <td mat-cell *matCellDef="let row"> {{ row.place }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+      <td mat-cell *matCellDef="let row"> {{ row.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="citations">
+      <th mat-header-cell *matHeaderCellDef>Citations</th>
+      <td mat-cell *matCellDef="let row">
+        <mat-icon *ngIf="row.citations && row.citations.length > 0">insert_comment</mat-icon>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<!--    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectEvent(row)"></tr>-->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        [class.selected]="selectedEvent === row"
+        (click)="selectEvent(row)">
+    </tr>
+
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons [length]="resultsLength"
+                 aria-label="Select page of users"></mat-paginator>
+</div>
